@@ -1,0 +1,124 @@
+<html>
+<head>
+  <title> Crime in Baltimore </title>
+<style>
+  #key {
+    text-shadow: -.5px 0 black, 0 .5px black, .5px 0 black, 0 -.5px black;
+}
+</style>
+</head>
+<body>
+  <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="../main.min.css">
+  <link rel="stylesheet" type="text/css" href="../fonts.min.css">
+  <link rel="stylesheet" type="text/css" href="../jquery.dynatable.css">
+
+<h1><center> Crime in Baltimore <center></h1>
+
+  <p> <center> Crime in Baltimore continues to rise. Shootings and murders are the norm these days, and many parts of the city are not safe for most people. The map below displays all of the shootings and homicides in the past few years. The data is from the Baltimore's "Open Baltimore" initiative. All of the CCTV cameras in the city are also plotted on the map in blue for reference.</center></p>
+
+  <div id="map"></div>
+
+  <iframe src="https://www.google.com/maps/d/u/0/embed?mid=zM5Z5ryl0zTA.kA8GS8wZkUHI" width=100% height="60%"></iframe>
+<div id="key"> <center><h2><font color="4186f0"> CCTV Cameras </font> <font color="f4eb37">Homicides</font> <font color="db4436">Shootings</font> </h2></center></div>
+
+<table id="table" class="display" cellspacing="0" width="75%">
+        <thead>
+            <tr>
+                <th>Crime Date</th>
+                <th>Crime Time</th>
+                <th>Crime Code</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Weapon</th>
+                <th>Neighborhood</th>
+                <th>Lat/Long</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+              <th>Crime Date</th>
+              <th>Crime Time</th>
+              <th>Crime Code</th>
+              <th>Location</th>
+              <th>Description</th>
+              <th>Weapon</th>
+              <th>Neighborhood</th>
+              <th>Lat/Long</th>
+            </tr>
+        </tfoot>
+    </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="http://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.js"></script>
+
+
+<script>
+
+
+// function initMap() {
+//   var infowindow = new google.maps.InfoWindow();
+//   var mapDiv = document.getElementById('map');
+//       var map = new google.maps.Map(mapDiv, {
+//         center: {lat: 39.2888414, lng: -76.6099112},
+//         zoom: 8
+// });
+// google.maps.event.addListener(map, 'click', function() {
+//   infowindow.close();
+//   });
+// map.data.loadGeoJson('https://data.baltimorecity.gov/resource/4ih5-d5d5.geojson');
+//
+// map.data.addListener('click', function(event) {
+//      infowindow.setContent(event.feature.getProperty('name')+"<br>"+event.feature.getProperty('description'));
+//      infowindow.setPosition(event.latLng);
+//      infowindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
+//      infowindow.open(map);
+//   });
+// google.maps.event.addDomListener(window, 'load', initialize);
+// }
+
+
+
+    $(document).ready(function() {
+
+
+
+      // $.ajax({
+      //   url: "https://data.baltimorecity.gov/resource/4ih5-d5d5.json",
+      //   method: "GET",
+      //   dataType: "json",
+      //   data: {
+      //     "$$app_token": "pcfqfrfRRTemSyO25g3hILe9u"
+      //   },
+      //   success: function( data, status, jqxhr ){
+      //     console.log( "Request received:", data );
+      //     $('#my-table').dynatable({
+      //       dataset: {
+      //   records: data
+      // }
+      //     });
+      //
+      //
+      // } );
+      //
+      //   },
+      //   error: function( jqxhr, status, error ){
+      //     console.log( "Something went wrong!" );
+      //   }
+      // });
+
+
+      $('#table').DataTable( {
+        "ajax": 'main_data.json'
+        //"order": [[0, "desc"]]
+      } );
+} );
+
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvemcfzIvxBfrCg-6W_7UKYcDLPhps0_E&callback=initMap"
+       async defer></script>
+
+
+  </body>

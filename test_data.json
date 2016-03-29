@@ -1,0 +1,14 @@
+{
+  "data":[
+{
+  "CrimeDate": "3/5/16",
+  "CrimeTime": "9:25:00",
+  "CrimeCode": "6B",
+  "Location": "5000 HARFORD RD",
+  "Description": "LARCENY",
+  "Weapon": " ",
+  "Neighborhood": "Waltherson",
+  "Location 1": "(39.3473800000, -76.5655800000)"
+}
+]
+}
