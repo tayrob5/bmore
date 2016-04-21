@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvemcfzIvxBfrCg-6W_7UKYcDLPhps0_E&libraries=visualization&callback=isReady"
+    async defer ></script>
+
+    <script>
+    var googleMapsLoaded = false;
+    var docReady = false;
+
+
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        docReady = true;
+        readyTest();
+    });
+
+    function isReady(){
+      console.log("is ready");
+      googleMapsLoaded = true;
+      readyTest();
+    }
+
+    function readyTest(){
+      if (googleMapsLoaded && docReady){
+        initMap();
+      }
+      else{
+        console.log(googleMapsLoaded);
+        console.log(docReady);
+      }
+    }
+
+      var map;
+       function initMap() {
+         var infowindow = new google.maps.InfoWindow();
+         var mapDiv = document.getElementById('map');
+             var map = new google.maps.Map(mapDiv, {
+               center: {lat: 39.2888414, lng: -76.6099112},
+               zoom: 12
+       });
+
+
+       google.maps.event.addListener(map, 'click', function() {
+         infowindow.close();
+         });
+       map.data.loadGeoJson('https://data.baltimorecity.gov/resource/4ih5-d5d5.geojson?description=SHOOTING');
+       map.data.loadGeoJson('https://data.baltimorecity.gov/resource/4ih5-d5d5.geojson?description=HOMICIDE');
+
+      var mapData = $.getJSON('https://data.baltimorecity.gov/resource/4ih5-d5d5.geojson?description=SHOOTING');
+      //mapData += JSON.get('https://data.baltimorecity.gov/resource/4ih5-d5d5.geojson?description=HOMICIDE');
+      var JSONLoaded;
+      console.log(mapData);
+
+      if (mapData.readyState != 4){
+        JSONLoaded = false;
+        checkLoad();
+      }
+      else{
+        JSONLoaded = true;
+        checkLoad();
+      }
+
+      function checkLoad(){
+        if (mapData.readyState = 4){
+          JSONLoaded = true;
+          //letsGo();
+          console.log(mapData.readyState);
+          console.log(mapData.responseJSON);
+        }else{
+          JSONLoaded = false;
+          checkLoad();
+        }
+      }
+      console.log(mapData.readyState);
+      console.log(mapData.responseJSON.features);
+       var locations = [];
+
+       function letsGo(){
+       for (i=0; i>mapData.responseJSON.features.length; i++){
+       tempLocation = mapData[i]
+       locations.push(tempLocation.features.geometry.coordinates);
+       console.log(tempLocation.features.geometry.coordinates);
+        }
+     console.log(locations);
+   }
+
+
+       var heatMapData = [];
+
+       var heatmap = new google.maps.visualization.HeatmapLayer({
+         data: heatMapData
+       });
+       heatmap.setMap(map);
+
+       map.data.addListener('click', function(event) {
+            infowindow.setContent(event.feature.getProperty('description')+"<br>"+event.feature.getProperty('crimedate'));
+            infowindow.setPosition(event.latLng);
+            infowindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
+            infowindow.open(map);
+         });
+       google.maps.event.addDomListener(window, 'load', initMap);
+       }
+    </script>
+
+
+
+
+
+
+</html>
